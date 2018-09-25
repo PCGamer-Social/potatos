@@ -11,14 +11,12 @@ stream.on("update", (status: Status) => {
   console.log(status);
   if (
     status.account.username == "Eai" &&
-    status.tags.forEach(function(e) {
-      if (e.name == "pcgsinfo") {
-        return true;
-      }
+    status.tags.some(function(e) {
+      return e.name == "pcgsinfo";
     })
   ) {
     client
-      .post<Status>(`/${status.id}/reblog`)
+      .post<Status>(`/statuses/${status.id}/reblog`)
       .then((res: Response<Status>) => {
         console.log(res);
       })
